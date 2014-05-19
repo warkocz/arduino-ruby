@@ -1,7 +1,6 @@
 class FirmataService
 
   PORT = '/dev/tty.usbmodem1421'
-
   VERTICAL_SERVO_PIN = 2
   HORIZONTAL_SERVO_PIN = 3
   LASER_PIN = 4
