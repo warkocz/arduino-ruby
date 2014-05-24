@@ -1,6 +1,6 @@
 module SerialService
 
-  PORT = '/dev/tty.usbmodem1421'
+  PORT = '/dev/tty.usbmodem1411'
   BAUD_RATE = 9600
   DATA_BITS = 8
   STOP_BITS = 1

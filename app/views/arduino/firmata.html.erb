@@ -1,10 +1,16 @@
 <div class="container">
 
-  <%= button_to('Connect', connect_firmata_path, class: 'btn btn-primary') unless FirmataService.connected? %>
-  Status: <span class="label label-primary"><%= FirmataService.connected? ? 'Connected' : 'Disconnected' %></span>
 
-  <%= button_to 'Circle', run_firmata_path(command: 'circle') %>
-  <%= button_to 'Rose', run_firmata_path(command: 'rose') %>
-  <%= button_to 'Spiral', run_firmata_path(command: 'spiral') %>
-  <%= button_to 'Stop', run_firmata_path(command: 'stop') %>
+  <div class="row">
+    <div class="col-md-2"><%= button_to(FirmataService.connected? ? 'Connected' : 'Connect', connect_firmata_path, class: "btn btn-#{FirmataService.connected? ? 'success' : 'primary'}") %></div>
+  </div>
+  <br/>
+  <% if FirmataService.connected? %>
+      <div class="row">
+        <div class="col-md-1"><%= button_to 'Circle', run_firmata_path(command: 'circle'), class: 'btn btn-info' %></div>
+        <div class="col-md-1"><%= button_to 'Rose', run_firmata_path(command: 'rose'), class: 'btn btn-info' %></div>
+        <div class="col-md-1"><%= button_to 'Spiral', run_firmata_path(command: 'spiral'), class: 'btn btn-info' %></div>
+        <div class="col-md-2"><%= button_to 'Stop', run_firmata_path(command: 'stop'), class: 'btn btn-danger' %></div>
+      </div>
+  <% end %>
 </div>
