@@ -2,10 +2,10 @@
 
 
   <div class="row">
-    <div class="col-md-2"><%= button_to(FirmataService.connected? ? 'Connected' : 'Connect', connect_firmata_path, class: "btn btn-#{FirmataService.connected? ? 'success' : 'primary'}") %></div>
+    <div class="col-md-2"><%= button_to(FirmataService.instance.connected? ? 'Connected' : 'Connect', connect_firmata_path, class: "btn btn-#{FirmataService.instance.connected? ? 'success' : 'primary'}") %></div>
   </div>
   <br/>
-  <% if FirmataService.connected? %>
+  <% if FirmataService.instance.connected? %>
       <div class="row">
         <div class="col-md-1"><%= button_to 'Circle', run_firmata_path(command: 'circle'), class: 'btn btn-info' %></div>
         <div class="col-md-1"><%= button_to 'Rose', run_firmata_path(command: 'rose'), class: 'btn btn-info' %></div>

@@ -1,39 +1,36 @@
 class FirmataService
 
+  include Singleton
+
   PORT = '/dev/tty.usbmodem1411'
   VERTICAL_SERVO_PIN = 2
   HORIZONTAL_SERVO_PIN = 3
   LASER_PIN = 4
 
   attr_accessor :arduino
+  attr_accessor :arduino_thread
 
-  def initialize
-    @arduino = FirmataService.connect
-  end
-
-  def self.connect
-    Rails.configuration.arduino ||= Firmata::Board.new(FirmataService::PORT)
-    arduino = Rails.configuration.arduino
+  def connect
+    @arduino ||= Firmata::Board.new(FirmataService::PORT)
     arduino.connect unless arduino.connected?
     arduino.set_pin_mode(VERTICAL_SERVO_PIN, Firmata::Board::SERVO)
     arduino.set_pin_mode(HORIZONTAL_SERVO_PIN, Firmata::Board::SERVO)
     arduino.set_pin_mode(LASER_PIN, Firmata::Board::OUTPUT)
-    arduino
   end
 
-  def self.connected?
-    Rails.configuration.arduino.connected? if Rails.configuration.arduino
+  def connected?
+    arduino.try(:connected?)
   end
 
   def stop
     arduino.digital_write LASER_PIN, Firmata::Board::LOW
-    Thread.kill(Rails.configuration.arduino_thread) if Rails.configuration.arduino_thread.present?
+    Thread.kill(arduino_thread) if arduino_thread
   end
 
   def run(command)
     stop
     arduino.digital_write LASER_PIN, Firmata::Board::HIGH
-    Rails.configuration.arduino_thread = Thread.new { send(command) }
+    @arduino_thread = Thread.new { send(command) }
   end
 
   def circle

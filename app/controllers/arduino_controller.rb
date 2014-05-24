@@ -12,12 +12,12 @@ class ArduinoController < ApplicationController
   end
 
   def connect_firmata
-    FirmataService.connect
+    FirmataService.instance.connect
     redirect_to :back
   end
 
   def run_firmata
-    FirmataService.new.run(params[:command])
+    FirmataService.instance.run(params[:command])
     redirect_to :back
   end
 
